@@ -1,0 +1,100 @@
+\documentclass[twoside]{report}
+
+\title{Project 2}
+\date{31 January 2020}
+\author{Michael Hrishenko, \LaTeX\ WIZARD}
+%LVLS: NEWBIE,JOURNEYMAN,DAEMON,WIZARD,WHEEL,SUPERUSER,STAFF,ADMIN,SYSLORD,HAKMEM,DEMIGOD,UBERGEEK,DARPA,TURING,FORBIN,NUCLEAR,L33T,G-MAN,OMICRON,M.I.B.,Q DIVISION,NSAMRSOC,QUANTUM,ORBIT,TRIAD,COSMOS,ASTRAL,STELLAR,ULTRA,LUNA,COSMIC,MAJESTIC,META
+
+\usepackage{lipsum}
+\usepackage{enumerate}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{634format}
+\usepackage{holtex}
+\usepackage{holtexbasic}
+%\input{commands}
+
+\begin{document}
+\lstset{language=ML}
+\maketitle
+\begin{abstract}
+    Basic knowledge and application of AUCTeX, emacs, ML, and \LaTeX{}. Beginning to work on natural language translation into ML code, as well as different ways of declaring and building functions. Work presented as relevant in the Exercise Chapters, with full source code included in the Appendices.
+\end{abstract}
+
+\textbf{Acknowledgements}: Professors Marvine Hamner, Shiu-Kai Chin, \& Susan Older
+
+\tableofcontents
+
+\chapter{Executive Summary}
+\label{cha:executive-summary}
+Unable to complete parts of report. Partway solution to 5.3.4, problem 5.3.5 not attempted and 6.2.1 incomplete as well. Understand I am falling behind, not sure hot to correct but will try some changes in the coming week. Many thanks to Prof. Hamner, and my apologies for missing the posting of the Report Example the first time. This and all subsequent reports should be formatted completely to spec, please call me out if that is not the case. Have used \url{https://www.overleaf.com} to help mitigate lack of time for classwork. Due to my inability to install software on my work computer, and time spent at work, I do not believe I could complete the required amount of school material without a web-based solution such as this. I especially like the error reports upon compilation, and extensive in-house documentation provided by Overleaf. If a class subscription is available I would highly recommend it for future sessions.
+
+\chapter{Exercise 4.6.3}
+\label{cha:4-6-3}
+\section{Problem Statement}
+\begin{enumerate}
+    \item In ML, define functions (and test them on examples) corresponding to each function below. For each of the functions, you will define two ML functions,
+    \begin{enumerate}
+        \item the first using fn and val to define and name the function, and
+        \item the other using fun to define and name the function.
+        \begin{enumerate}
+            \item A function that takes a 3-tuple of integers (x;y;z) as input and returns the value corresponding to the sum x+y+z.
+            \item A function that takes two integer inputs x and y (where x is supplied first followed by y) and returns the boolean value corresponding to x < y.
+        \end{enumerate}
+    \end{enumerate}
+    \item Make sure you use pattern matching. For example, suppose the function is lx:(ly:2x+y). We would define in ML 1. val funEx1 = (fn x => (fn y => 2*x + y)), and 2. fun funEx2 x y = 2*x + y As a naming convention, use the names funA1, funA2, funB1, funB2, etc.
+\end{enumerate}
+\section{Relevant Code}
+    \begin{lstlisting}[frame=trBL]
+(*** A ***)
+val funA1 = (fn x => (fn y => (fn z => x + y + z)));
+fun funA2 x y z = x + y + z;
+(*** B ***)
+val funB1 = (fn y => (fn x => x < y));
+fun funB2 x y = x < y;
+    \end{lstlisting}
+\section{Test Cases}
+%\setcounter{sessioncount}{0}
+    \begin{scriptsize}
+    \begin{verbatim}
+(*** A ***)
+funA1 1 1 1;
+funA2 1 1 1;
+(*** B ***)
+funB1 1 2;
+funB2 1 2;
+    \end{verbatim}
+    \end{scriptsize}
+\section{Execution Transcripts}
+\begin{scriptsize}
+    \begin{verbatim}
+# val it = 3: int
+> val it = 3: int
+> # val it = false: bool
+    \end{verbatim}
+\end{scriptsize}
+
+\appendix{}
+\chapter{Source Code for 4.6.3}
+\label{cha:apdx-a}
+%\lstinputlisting{ML/ex-4-6-3.sml}
+
+\chapter{Source Code for 4.6.4}
+\label{cha:apdx-b}
+%\lstinputlisting{ML/ex-4-6-4.sml}
+
+\chapter{Source Code for 5.3.4}
+\label{cha:apdx-c}
+%\lstinputlisting{ML/ex-5-3-4.sml}
+
+\chapter{Source Code for 5.3.5}
+\label{cha:apdx-d}
+%\lstinputlisting{ML/ex-4-6-3.sml}
+
+\chapter{Source Code for 6.2.1}
+\label{cha:apdx-e}
+%\lstinputlisting{ML/ex-4-6-3.sml}
+
+\end{document}
