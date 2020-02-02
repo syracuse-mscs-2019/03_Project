@@ -1,8 +1,1 @@
-DIAG: #objs = 2
-DIAG: allincs = []
-DIAG: About to load base-state /home/troy/dev/HOL/bin/hol.state
-DIAG: Buildheap extra now = NONE
-DIAG: holpathdb extensions: 
-DIAG: Loading /home/troy/dev/HOL/sigobj/holmake_not_interactive.uo
-DIAG: Loading /home/troy/dev/ms500/CIS-634_AsrFound/03_Project/chapter8Script.uo
 Couldn't find required output file: /home/troy/dev/ms500/CIS-634_AsrFound/03_Project/chapter8Theory.sml
