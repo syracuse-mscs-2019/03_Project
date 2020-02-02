@@ -32,62 +32,116 @@ This report begins actual proofs and theorems in HOL and ML, using logic structu
 Unable to complete problems 8.4.2 \& 8.4.3 due to time constraints. Problem 8.4.1 completed but unable to compile properly given Holmake errors:
 \begin{scriptsize}
     \begin{verbatim}
-% Holmake                                                                     4:22:11
+\% Holmake                                                                     4:22:11
 chapter8Theory                                        real:    0s  user:    0sFAIL<1>
  Couldn't find required output file: /home/troy/dev/ms500/CIS-634_AsrFound/03_Project/chapter8Theory.sml
      \end{verbatim}
 \end{scriptsize}
-Continuing to troubleshoot Holmake errors, however already wasted enough time and focusing now on completing problems. All problems from Chapter 7 completed successfully, no errors to report. Many thanks to Professor Hamner for helping me work around my ever-changing schedule.
+The file "chapter8Script.sml" does contain a valid proof for 8.4.1, it was verified in the HOL REPL just not compiled due to the error above. Continuing to troubleshoot Holmake, however already wasted enough time and focusing now on completing problems. All problems from Chapter 7 completed successfully, no errors to report. Many thanks to Professor Hamner for helping me work around my ever-changing schedule.
 
 
 \chapter{Exercise 7.3.1}
 \label{cha:7-3-1}
 \section{Problem Statement}
 \begin{enumerate}
-    \item In ML, define functions (and test them on examples) corresponding to each function below. For each of the functions, you will define two ML functions,
-    \begin{enumerate}
-        \item the first using fn and val to define and name the function, and
-        \item the other using fun to define and name the function.
-        \begin{enumerate}
-            \item A function that takes a 3-tuple of integers (x;y;z) as input and returns the value corresponding to the sum x+y+z.
-            \item A function that takes two integer inputs x and y (where x is supplied first followed by y) and returns the boolean value corresponding to x < y.
-        \end{enumerate}
-    \end{enumerate}
-    \item Make sure you use pattern matching. For example, suppose the function is lx:(ly:2x+y). We would define in ML 1. val funEx1 = (fn x => (fn y => 2*x + y)), and 2. fun funEx2 x y = 2*x + y As a naming convention, use the names funA1, funA2, funB1, funB2, etc.
+    \item Create a function andImp2Imp term that operates on terms of the form $p \wedge  q \Rightarrow r$ and returns $p \Rightarrow q \Rightarrow r$.
 \end{enumerate}
 \section{Relevant Code}
     \begin{lstlisting}[frame=trBL]
-(*** A ***)
-val funA1 = (fn x => (fn y => (fn z => x + y + z)));
-fun funA2 x y z = x + y + z;
-(*** B ***)
-val funB1 = (fn y => (fn x => x < y));
-fun funB2 x y = x < y;
+fun andImp2Imp exp1 = 
+let
+	val (im1,im2) = dest_imp exp1
+	val (im3,im4) = dest_conj im1
+	val im5 = mk_imp (im4,im2)
+in
+	mk_imp (im3,im5)
+end;
     \end{lstlisting}
 \section{Test Cases}
-%\setcounter{sessioncount}{0}
-    \begin{scriptsize}
+\begin{scriptsize}
     \begin{verbatim}
-(*** A ***)
-funA1 1 1 1;
-funA2 1 1 1;
-(*** B ***)
-funB1 1 2;
-funB2 1 2;
+val test1 = ``(p /\ q) ==> r``;
+andImp2Imp test1;
     \end{verbatim}
-    \end{scriptsize}
+\end{scriptsize}
 \section{Execution Transcripts}
 \begin{scriptsize}
     \begin{verbatim}
-# val it = 3: int
-> val it = 3: int
-> # val it = false: bool
+> andImp2Imp test1;
+val it = ``(p :bool) ==> (q :bool) ==> (r :bool)``: term
     \end{verbatim}
 \end{scriptsize}
 
+
+\chapter{Exercise 7.3.2}
+\label{cha:7-3-2}
+\section{Problem Statement}
+\begin{enumerate}
+    \item Create a function impImpAnd term that operates on terms of the form $p \Rightarrow q \Rightarrow r$ and returns $p \wedge q \Rightarrow r$. Show that impImpAnd reverses the effects of andImp2Imp, and vice verse.
+\end{enumerate}
+\section{Relevant Code}
+    \begin{lstlisting}[frame=trBL]
+fun impImpAnd exp1 = 
+let
+	val (im1,im2) = dest_imp exp1
+	val (im3,im4) = dest_imp im2
+	val im5 = mk_conj (im1,im3)
+in
+	mk_imp (im5,im4)
+end;
+    \end{lstlisting}
+\section{Test Cases}
+\begin{scriptsize}
+    \begin{verbatim}
+val test2 = ``p ==> q ==> r``;
+andImp2Imp(impImpAnd test2);
+    \end{verbatim}
+\end{scriptsize}
+\section{Execution Transcripts}
+\begin{scriptsize}
+    \begin{verbatim}
+> andImp2Imp(impImpAnd test2);
+val it = ``(p :bool) ==> (q :bool) ==> (r :bool)``: term
+    \end{verbatim}
+\end{scriptsize}
+
+
+\chapter{Exercise 7.3.3}
+\label{cha:7-3-3}
+\section{Problem Statement}
+\begin{enumerate}
+    \item Create a function notExists term that operates on terms of the form $\urcorner \exists x.P(x)$ and returns $\forall x. \urcorner P(x)$.
+\end{enumerate}
+\section{Relevant Code}
+    \begin{lstlisting}[frame=trBL]
+fun notExists exp1 = 
+let
+	val (im1,im2) = dest_comb exp1
+	val (im3,im4) = dest_exists im2
+	val im5 = mk_neg im4
+in
+	mk_forall (im3,im5)
+end;
+    \end{lstlisting}
+\section{Test Cases}
+\begin{scriptsize}
+    \begin{verbatim}
+val test3 = ``~?z.Q z``;
+notExists test3;
+    \end{verbatim}
+\end{scriptsize}
+\section{Execution Transcripts}
+\begin{scriptsize}
+    \begin{verbatim}
+> notExists test3;
+val it = ``!(z :'a). ~(Q :'a -> bool) z``: term
+    \end{verbatim}
+\end{scriptsize}
+
+
 \appendix{}
-\chapter{Source Code for 7.3.1}
+\chapter{Source Code for All Answers}
 \label{cha:apdx-a}
-%\lstinputlisting{ML/ex-4-6-3.sml}
+\lstinputlisting{ML/chapter7Answers.sml}
 
 \end{document}
